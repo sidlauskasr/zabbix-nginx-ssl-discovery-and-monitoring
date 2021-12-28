@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.4</version>
+    <date>2021-12-28T10:35:39Z</date>
+    <groups>
+        <group>
+            <uuid>098f6bcd462143738ade4e832627b4f6</uuid>
+            <name>test</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <uuid>562197c1ee424840862cf2db2eb36c79</uuid>
+            <template>ssl_discovery_and_monitoring_template</template>
+            <name>ssl_discovery_and_monitoring_template</name>
+            <description>copy files ssl_finder.sh and ssl_checker.sh to zabbix scripts folder on agent
+copy userparameter_sslcertificate.conf to user parameters location on agent.</description>
+            <groups>
+                <group>
+                    <name>test</name>
+                </group>
+            </groups>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>d96b6939b5e547679439e72bfa41fdda</uuid>
+                    <name>ssl certificate on server</name>
+                    <key>ssl.certs.discovery</key>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>a63c6fafdc5e4382adb3d2e47a8c611d</uuid>
+                            <name>$1 ssl status</name>
+                            <key>ssl.cert.expiredate[{#SSL_CERTIFICATE}]</key>
+                            <units>days</units>
+                            <tags>
+                                <tag>
+                                    <tag>ssl</tag>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>61c85d92adf04f84820d9bc5c6002c18</uuid>
+                                    <expression>last(/ssl_discovery_and_monitoring_template/ssl.cert.expiredate[{#SSL_CERTIFICATE}])&lt;10</expression>
+                                    <name>{#HOSTNAME} ssl expiring {#SSL_CERTIFICATE}</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>6f3d5eb5eb964808be691d68db4f4e4b</uuid>
+                                    <expression>last(/ssl_discovery_and_monitoring_template/ssl.cert.expiredate[{#SSL_CERTIFICATE}])&lt;30</expression>
+                                    <name>{#HOSTNAME} ssl expiring {#SSL_CERTIFICATE}</name>
+                                    <priority>INFO</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                    <graph_prototypes>
+                        <graph_prototype>
+                            <uuid>115113989f714ef7a7c7877a49712d09</uuid>
+                            <name>{#SSL_CERTIFICATE} ssl days left</name>
+                            <show_work_period>NO</show_work_period>
+                            <show_triggers>NO</show_triggers>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <color>1A7C11</color>
+                                    <item>
+                                        <host>ssl_discovery_and_monitoring_template</host>
+                                        <key>ssl.cert.expiredate[{#SSL_CERTIFICATE}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                    </graph_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+            <tags>
+                <tag>
+                    <tag>ssl</tag>
+                </tag>
+            </tags>
+        </template>
+    </templates>
+</zabbix_export>
