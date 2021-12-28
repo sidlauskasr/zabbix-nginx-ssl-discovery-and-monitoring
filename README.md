@@ -12,4 +12,4 @@ assign template to host
 
 note:
 
-depending on the mess you have on the webserver it could require ammending ssl_finder.sh "awk '{print $3}') to correctly catch ssl file locations.
+depending on the mess you have on the webserver it could require ammending ssl_finder.sh with find location and "awk '{print $3}') to correctly catch ssl file locations.
